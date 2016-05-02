@@ -1,0 +1,51 @@
+[
+  {
+    "request": {
+      "body": "",
+      "headers": {
+        "Authorization": "Basic dmFsaWRfYWNjb3VudF9pZDp2YWxpZF9hcHBsaWNhdGlvbl9rZXk="
+      },
+      "method": "get",
+      "options": [],
+      "request_body": "",
+      "url": "https://api.backblaze.com/b2api/v1/b2_authorize_account"
+    },
+    "response": {
+      "body": "{\n  \"accountId\": \"valid_account_id\",\n  \"apiUrl\": \"https://api000.backblaze.com\",\n  \"authorizationToken\": \"3_2016XXXXXXXXXX_XXXXXXXXXXXXXXXXXXXXXXXX_XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX_000_acct\",\n  \"downloadUrl\": \"https://f000.backblaze.com\",\n  \"minimumPartSize\": 100000000\n}\n",
+      "headers": {
+        "Server": "Apache-Coyote/1.1",
+        "Cache-Control": "max-age=0, no-cache, no-store",
+        "Content-Type": "application/json;charset=UTF-8",
+        "Content-Length": "276",
+        "Date": "Mon, 02 May 2016 06:15:01 GMT"
+      },
+      "status_code": 200,
+      "type": "ok"
+    }
+  },
+  {
+    "request": {
+      "body": "{\"accountId\":\"valid_account_id\"}",
+      "headers": {
+        "Authorization": "3_2016XXXXXXXXXX_XXXXXXXXXXXXXXXXXXXXXXXX_XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX_000_acct",
+        "Content-Type": "application/json"
+      },
+      "method": "post",
+      "options": [],
+      "request_body": "",
+      "url": "https://api000.backblaze.com/b2api/v1/b2_list_buckets"
+    },
+    "response": {
+      "body": "{\n  \"buckets\": [\n    {\n      \"accountId\": \"valid_account_id\",\n      \"bucketId\": \"6dd33353ffdd65f85e410312\",\n      \"bucketName\": \"ex-b2-client-test-bucket\",\n      \"bucketType\": \"allPrivate\"\n    },\n    {\n      \"accountId\": \"valid_account_id\",\n      \"bucketId\": \"bd4343937f6d75785e210312\",\n      \"bucketName\": \"kk-movie-bucket\",\n      \"bucketType\": \"allPrivate\"\n    },\n    {\n      \"accountId\": \"valid_account_id\",\n      \"bucketId\": \"ed23a3638fad05a85e210312\",\n      \"bucketName\": \"privatelog-local\",\n      \"bucketType\": \"allPrivate\"\n    },\n    {\n      \"accountId\": \"valid_account_id\",\n      \"bucketId\": \"5d93d323af4d65485e310312\",\n      \"bucketName\": \"privatelog-prod\",\n      \"bucketType\": \"allPrivate\"\n    },\n    {\n      \"accountId\": \"valid_account_id\",\n      \"bucketId\": \"fd63e3836f1d25785e110312\",\n      \"bucketName\": \"privatelog-staging\",\n      \"bucketType\": \"allPrivate\"\n    },\n    {\n      \"accountId\": \"valid_account_id\",\n      \"bucketId\": \"cd3353130fed25f85e110312\",\n      \"bucketName\": \"refile-test-bucket\",\n      \"bucketType\": \"allPrivate\"\n    },\n    {\n      \"accountId\": \"valid_account_id\",\n      \"bucketId\": \"7db353431f7d05685e210312\",\n      \"bucketName\": \"refile-test-public\",\n      \"bucketType\": \"allPublic\"\n    }\n  ]\n}\n",
+      "headers": {
+        "Server": "Apache-Coyote/1.1",
+        "Cache-Control": "max-age=0, no-cache, no-store",
+        "Content-Type": "application/json;charset=UTF-8",
+        "Content-Length": "1202",
+        "Date": "Mon, 02 May 2016 06:15:01 GMT"
+      },
+      "status_code": 200,
+      "type": "ok"
+    }
+  }
+]
