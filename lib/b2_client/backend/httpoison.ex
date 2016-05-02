@@ -33,11 +33,8 @@ defmodule B2Client.Backend.HTTPoison do
   def get_bucket(b2, bucket_name) do
     uri = b2.api_url <> "/b2api/v1/b2_list_buckets"
     {:ok, request_body} = Poison.encode(%{"accountId" => b2.account_id})
-    headers = [
-      {"Authorization", b2.authorization_token},
-      {"Content-Type", "application/json"}
-    ]
-    case post(uri, request_body, headers, []) do
+
+    case post(uri, request_body, headers(:post, b2), []) do
       {:ok, %{status_code: 200, body: original_body}} ->
         body = Poison.Parser.parse!(original_body)
         bucket = Enum.find(body["buckets"], fn
@@ -64,7 +61,7 @@ defmodule B2Client.Backend.HTTPoison do
 
   def download(b2, bucket, path) do
     uri = get_download_url(b2, bucket, path)
-    case get(uri, [{"Authorization", b2.authorization_token}], []) do
+    case get(uri, headers(:get, b2), []) do
       {:ok, %{status_code: 200, body: body}} ->
         {:ok, body}
       {:ok, %{status_code: code, body: original_body}} ->
@@ -77,7 +74,7 @@ defmodule B2Client.Backend.HTTPoison do
 
   def download_head(b2, bucket, path) do
     uri = get_download_url(b2, bucket, path)
-    case head(uri, [{"Authorization", b2.authorization_token}], []) do
+    case head(uri, headers(:head, b2), []) do
       {:ok, %{status_code: 200, headers: headers}} ->
         {_, size} = Enum.find headers, {nil, 0}, fn({key, _}) ->
           String.downcase(key) == "content-length"
@@ -95,11 +92,7 @@ defmodule B2Client.Backend.HTTPoison do
   def get_upload_url(b2, bucket) do
     uri = b2.api_url <> "/b2api/v1/b2_get_upload_url"
     {:ok, request_body} = Poison.encode(%{"bucketId" => bucket.bucket_id})
-    headers = [
-      {"Authorization", b2.authorization_token},
-      {"Content-Type", "application/json"}
-    ]
-    case post(uri, request_body, headers, []) do
+    case post(uri, request_body, headers(:post, b2), []) do
       {:ok, %{status_code: 200, body: original_body}} ->
         body = Poison.Parser.parse!(original_body)
         {:ok, %UploadAuthorization{
@@ -156,11 +149,7 @@ defmodule B2Client.Backend.HTTPoison do
       "fileName" => file.file_name,
       "fileId" => file.file_id
     })
-    headers = [
-      {"Authorization", b2.authorization_token},
-      {"Content-Type", "application/json"}
-    ]
-    case post(uri, request_body, headers, []) do
+    case post(uri, request_body, headers(:post, b2), []) do
       {:ok, %{status_code: 200}} ->
         :ok
       {:ok, %{status_code: code, body: original_body}} ->
@@ -188,11 +177,7 @@ defmodule B2Client.Backend.HTTPoison do
       "bucketId" => bucket.bucket_id,
       "startFileName" => filename
     })
-    headers = [
-      {"Authorization", b2.authorization_token},
-      {"Content-Type", "application/json"}
-    ]
-    case post(uri, request_body, headers, []) do
+    case post(uri, request_body, headers(:post, b2), []) do
       {:ok, %{status_code: 200, body: original_body}} ->
         body = Poison.Parser.parse!(original_body)
         {:ok, Enum.filter_map(body["files"], fn
@@ -205,6 +190,21 @@ defmodule B2Client.Backend.HTTPoison do
       {:error, reason} ->
         {:error, reason}
     end
+  end
+
+  @spec headers(atom, Authorization.t) :: [{String.t, String.t}, ...]
+  defp headers(:post, auth) do
+    headers(:get, auth) ++ [
+      {"Content-Type", "application/json"}
+    ]
+  end
+
+  defp headers(_, auth) do
+    [
+      {"Accept", "application/json"},
+      {"Authorization", auth.authorization_token},
+      {"User-Agent", "Elixir/B2Client"},
+    ]
   end
 
   defp sha1hash(iodata) do
