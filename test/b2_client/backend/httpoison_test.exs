@@ -49,7 +49,10 @@ defmodule B2Client.Backend.HTTPoisonTest do
       {:ok, auth} = backend.authenticate(@account_id, @application_key)
       assert {:ok, %Bucket{} = bucket} = backend.get_bucket(auth, "ex-b2-client-test-bucket")
 
-      assert {:ok, "hello there"} = backend.download(auth, bucket, "hello_there.txt")
+      assert {:ok, file} = backend.download(auth, bucket, "hello_there.txt")
+
+      assert file.contents == "hello there"
+      assert file.file_id == "4_z6dd33353ffdd65f85e410312_f1172ee1b90ad92b9_d20160502_m061500_c000_v0001007_t0027"
     end
   end
 
@@ -58,7 +61,7 @@ defmodule B2Client.Backend.HTTPoisonTest do
       {:ok, auth} = backend.authenticate(@account_id, @application_key)
       assert {:ok, %Bucket{} = bucket} = backend.get_bucket(auth, "ex-b2-client-test-bucket")
 
-      assert {:error, {:http_404, _}} = backend.download(auth, bucket, "nope.txt")
+      assert {:error, %{"code" => "not_found"}} = backend.download(auth, bucket, "nope.txt")
     end
   end
 

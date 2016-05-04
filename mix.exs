@@ -18,7 +18,6 @@ defmodule B2Client.Mixfile do
       dialyzer: [
         plt_file: ".local.plt",
         plt_add_apps: [
-          :exfile,
           :httpoison,
           :poison
         ]

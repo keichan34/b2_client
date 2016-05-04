@@ -5,7 +5,7 @@ defmodule B2Client.Backend.Memory do
 
   use GenServer
 
-  alias B2Client.{Authorization, Bucket, File, UploadAuthorization}
+  alias B2Client.{Authorization, Bucket, File, UploadAuthorization, Utilities}
 
   @behaviour B2Client.Backend
 
@@ -30,12 +30,12 @@ defmodule B2Client.Backend.Memory do
     GenServer.call(__MODULE__, {:get_bucket, b2, bucket_name})
   end
 
-  def get_upload_url(b2, bucket) do
-    GenServer.call(__MODULE__, {:get_upload_url, b2, bucket})
+  def get_upload_authorization(b2, bucket) do
+    GenServer.call(__MODULE__, {:get_upload_authorization, b2, bucket})
   end
 
   def upload(b2, %Bucket{} = bucket, iodata, filename) do
-    {:ok, auth} = get_upload_url(b2, bucket)
+    {:ok, auth} = get_upload_authorization(b2, bucket)
     upload(b2, auth, iodata, filename)
   end
 
@@ -144,7 +144,7 @@ defmodule B2Client.Backend.Memory do
     end
   end
 
-  defp execute_rpc(_b2, {:get_upload_url, _, bucket}, state) do
+  defp execute_rpc(_b2, {:get_upload_authorization, _, bucket}, state) do
     {{:ok, %UploadAuthorization{
       bucket_id: bucket.bucket_id,
       upload_url: "https://pod-000-1000-00.backblaze.example/b2api/v1/b2_upload_file?cvt=c000-1000-00&bucket=#{bucket.bucket_id}",
@@ -165,7 +165,7 @@ defmodule B2Client.Backend.Memory do
       file_id: "some-random-file-id",
       file_name: filename,
       content_length: byte_size(bytes),
-      content_sha1: sha1hash(bytes),
+      content_sha1: Utilities.sha1hash(bytes),
       content_type: "text/plain",
       file_info: %{}
     } |> Map.put(:file_contents, bytes)
@@ -180,9 +180,13 @@ defmodule B2Client.Backend.Memory do
     uri = get_download_url(b2, bucket, path)
     case Map.fetch(state.files, uri) do
       {:ok, file} ->
-        {{:ok, file.file_contents}, state}
+        {{:ok, file.file_contents, %{"meta" => "data"}}, state}
       _ ->
-        {{:error, {:http_404, ""}}, state}
+        {{:error, %{
+          "code" => "not_found",
+          "message" => "bucket #{bucket.bucket_name} does not have file: #{path}",
+          "status" => 404
+        }}, state}
     end
   end
 
@@ -213,10 +217,6 @@ defmodule B2Client.Backend.Memory do
   defp execute_rpc(_, bad_rpc, state) do
     IO.inspect bad_rpc
     {{:error, :badrpc}, state}
-  end
-
-  defp sha1hash(bytes) do
-    :crypto.hash(:sha, bytes) |> Base.encode16(case: :lower)
   end
 
   defp get_download_url(%{download_url: download_url}, %{bucket_name: bucket_name}, filename) do

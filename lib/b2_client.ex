@@ -19,6 +19,11 @@ defmodule B2Client do
   def backend,
     do: Application.get_env(:b2_client, :backend, B2Client.Backend.HTTPoison)
 
-  def start_memory_server,
+  @doc """
+  Returns whether the memory server should be started at boot or not.
+
+  Default false.
+  """
+  def start_memory_server?,
     do: Application.get_env(:b2_client, :start_memory_server, false)
 end
