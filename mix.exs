@@ -61,7 +61,7 @@ defmodule B2Client.Mixfile do
       {:httpoison, "~> 0.9.0"},
       {:poison, "~> 1.5 or ~> 2.0"},
       {:exvcr, "~> 0.7", only: :test},
-      {:earmark, "~> 0.1", only: :dev},
+      {:earmark, "~> 1.0", only: :dev},
       {:ex_doc, "~> 0.11", only: :dev}
     ]
   end
