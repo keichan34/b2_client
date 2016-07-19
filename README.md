@@ -10,7 +10,7 @@ A client for the [Backblaze B2](https://www.backblaze.com/b2/cloud-storage.html)
 
 	```elixir
 	def deps do
-	  [{:b2_client, "~> 0.0.1"}]
+	  [{:b2_client, "~> 0.0.2"}]
 	end
 	```
 
