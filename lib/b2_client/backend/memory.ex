@@ -130,7 +130,7 @@ defmodule B2Client.Backend.Memory do
     end
   end
 
-  defp execute_rpc(false, _), do: {{:error, :token_wrong}, state}
+  defp execute_rpc(false, _, state), do: {{:error, :token_wrong}, state}
 
   defp execute_rpc(b2, {:get_bucket, _, bucket_name}, state) do
     b = Enum.find(state.buckets[b2.account_id], fn
