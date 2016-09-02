@@ -10,13 +10,17 @@ defmodule B2Client.Supervisor do
   def init(:ok) do
     children = []
 
-    if requires_memory_server? do
-      children = children ++ [
-        worker(B2Client.Backend.Memory, [])
-      ]
-    end
+    children = children ++ memory_server_if_required()
 
     supervise(children, strategy: :one_for_one)
+  end
+
+  defp memory_server_if_required do
+    if requires_memory_server? do
+      [worker(B2Client.Backend.Memory, [])]
+    else
+      []
+    end
   end
 
   defp requires_memory_server? do
