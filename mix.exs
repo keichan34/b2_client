@@ -4,17 +4,17 @@ defmodule B2Client.Mixfile do
   def project do
     [
       app: :b2_client,
-      version: "0.0.2",
+      version: "0.0.3",
       elixir: "~> 1.2",
       build_embedded: Mix.env == :prod,
       start_permanent: Mix.env == :prod,
-      deps: deps,
+      deps: deps(),
       source_url: "https://github.com/keichan34/b2_client",
       docs: [
         extras: ["README.md"]
       ],
-      package: package,
-      description: description,
+      package: package(),
+      description: description(),
       dialyzer: [
         plt_file: ".local.plt",
         plt_add_apps: [
@@ -58,8 +58,8 @@ defmodule B2Client.Mixfile do
 
   defp deps do
     [
-      {:httpoison, "~> 0.9.0"},
-      {:poison, "~> 1.5 or ~> 2.0"},
+      {:httpoison, "~> 0.11.0"},
+      {:poison, "~> 3.0"},
       {:exvcr, "~> 0.7", only: :test},
       {:earmark, "~> 1.0", only: :dev},
       {:ex_doc, "~> 0.11", only: :dev}
