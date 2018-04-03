@@ -16,7 +16,7 @@ defmodule B2Client.Supervisor do
   end
 
   defp memory_server_if_required do
-    if requires_memory_server? do
+    if requires_memory_server?() do
       [worker(B2Client.Backend.Memory, [])]
     else
       []
@@ -24,6 +24,6 @@ defmodule B2Client.Supervisor do
   end
 
   defp requires_memory_server? do
-    B2Client.start_memory_server || B2Client.backend == B2Client.Backend.Memory
+    B2Client.start_memory_server() || B2Client.backend() == B2Client.Backend.Memory
   end
 end

@@ -66,7 +66,7 @@ defmodule B2Client.Backend.Memory do
   ## GenServer Callbacks ##
 
   def init(:ok) do
-    {:ok, initial_state}
+    {:ok, initial_state()}
   end
 
   defp initial_state do
@@ -97,20 +97,26 @@ defmodule B2Client.Backend.Memory do
   end
 
   def handle_call({:authenticate, account_id, application_key}, _from, state) do
-    r = case Map.fetch(state.accounts, account_id) do
-      {:ok, %{application_key: ^application_key} = acct} ->
-        client = Map.drop(acct, [:application_key])
-        client = Map.merge(%Authorization{}, client)
-        |> Map.put(:authorization_token, "fake_auth_token")
-        {:ok, client}
-      _ ->
-        {:error, :authentication_failed}
-    end
+    r =
+      case Map.fetch(state.accounts, account_id) do
+        {:ok, %{application_key: ^application_key} = acct} ->
+          client = Map.drop(acct, [:application_key])
+
+          client =
+            Map.merge(%Authorization{}, client)
+            |> Map.put(:authorization_token, "fake_auth_token")
+
+          {:ok, client}
+
+        _ ->
+          {:error, :authentication_failed}
+      end
+
     {:reply, r, state}
   end
 
   def handle_call(:reset, _from, _state) do
-    {:reply, :ok, initial_state}
+    {:reply, :ok, initial_state()}
   end
 
   def handle_call(rpc, _from, state) do
@@ -124,19 +130,24 @@ defmodule B2Client.Backend.Memory do
     case Map.fetch(state.authorizations, b2.authorization_token) do
       {:ok, account_id} ->
         client = Map.drop(state.accounts[account_id], [:application_key])
+
         Map.merge(%Authorization{}, client)
         |> Map.put(:authorization_token, "fake_auth_token")
-      :error -> false
+
+      :error ->
+        false
     end
   end
 
   defp execute_rpc(false, _, state), do: {{:error, :token_wrong}, state}
 
   defp execute_rpc(b2, {:get_bucket, _, bucket_name}, state) do
-    b = Enum.find(state.buckets[b2.account_id], fn
-      (%{bucket_name: ^bucket_name}) -> true
-      _ -> false
-    end)
+    b =
+      Enum.find(state.buckets[b2.account_id], fn
+        %{bucket_name: ^bucket_name} -> true
+        _ -> false
+      end)
+
     if b do
       {{:ok, b}, state}
     else
@@ -145,31 +156,43 @@ defmodule B2Client.Backend.Memory do
   end
 
   defp execute_rpc(_b2, {:get_upload_url, _, bucket}, state) do
-    {{:ok, %UploadAuthorization{
-      bucket_id: bucket.bucket_id,
-      upload_url: "https://pod-000-1000-00.backblaze.example/b2api/v1/b2_upload_file?cvt=c000-1000-00&bucket=#{bucket.bucket_id}",
-      authorization_token: "fake_upload_auth_token"
-    }}, state}
+    {{:ok,
+      %UploadAuthorization{
+        bucket_id: bucket.bucket_id,
+        upload_url:
+          "https://pod-000-1000-00.backblaze.example/b2api/v1/b2_upload_file?cvt=c000-1000-00&bucket=#{
+            bucket.bucket_id
+          }",
+        authorization_token: "fake_upload_auth_token"
+      }}, state}
   end
 
   defp execute_rpc(b2, {:upload, _, auth, iodata, filename}, state) do
     bucket_id = auth.bucket_id
-    bucket = Enum.find(state.buckets[b2.account_id], fn
-      %{bucket_id: ^bucket_id} -> true
-      _ -> false
-    end)
+
+    bucket =
+      Enum.find(state.buckets[b2.account_id], fn
+        %{bucket_id: ^bucket_id} -> true
+        _ -> false
+      end)
+
     uri = get_download_url(b2, bucket, filename)
     bytes = IO.iodata_to_binary(iodata)
-    file = %File{
-      bucket_id: auth.bucket_id,
-      file_id: "some-random-file-id",
-      file_name: filename,
-      content_length: byte_size(bytes),
-      content_sha1: sha1hash(bytes),
-      content_type: "text/plain",
-      file_info: %{}
-    } |> Map.put(:file_contents, bytes)
+
+    file =
+      %File{
+        bucket_id: auth.bucket_id,
+        file_id: "some-random-file-id",
+        file_name: filename,
+        content_length: byte_size(bytes),
+        content_sha1: sha1hash(bytes),
+        content_type: "text/plain",
+        file_info: %{}
+      }
+      |> Map.put(:file_contents, bytes)
+
     state = update_in(state.files, &Map.put(&1, uri, file))
+
     {
       {:ok, file},
       state
@@ -178,9 +201,11 @@ defmodule B2Client.Backend.Memory do
 
   defp execute_rpc(b2, {:download, _, bucket, path}, state) do
     uri = get_download_url(b2, bucket, path)
+
     case Map.fetch(state.files, uri) do
       {:ok, file} ->
         {{:ok, file.file_contents}, state}
+
       _ ->
         {{:error, {:http_404, ""}}, state}
     end
@@ -191,7 +216,9 @@ defmodule B2Client.Backend.Memory do
       {{:ok, contents}, state} ->
         file_size = byte_size(contents)
         {{:ok, file_size}, state}
-      other -> other
+
+      other ->
+        other
     end
   end
 
@@ -211,7 +238,7 @@ defmodule B2Client.Backend.Memory do
   # end
 
   defp execute_rpc(_, bad_rpc, state) do
-    IO.inspect bad_rpc
+    IO.inspect(bad_rpc)
     {{:error, :badrpc}, state}
   end
 

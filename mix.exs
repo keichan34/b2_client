@@ -5,9 +5,9 @@ defmodule B2Client.Mixfile do
     [
       app: :b2_client,
       version: "0.0.3",
-      elixir: "~> 1.2",
-      build_embedded: Mix.env == :prod,
-      start_permanent: Mix.env == :prod,
+      elixir: "~> 1.4",
+      build_embedded: Mix.env() == :prod,
+      start_permanent: Mix.env() == :prod,
       deps: deps(),
       source_url: "https://github.com/keichan34/b2_client",
       docs: [
@@ -20,10 +20,10 @@ defmodule B2Client.Mixfile do
         plt_add_apps: [
           :exfile,
           :httpoison,
-          :poison
+          :jason
         ]
-      ],
-   ]
+      ]
+    ]
   end
 
   def application do
@@ -32,7 +32,7 @@ defmodule B2Client.Mixfile do
       applications: [
         :logger,
         :httpoison,
-        :poison,
+        :jason,
         :crypto
       ]
     ]
@@ -58,11 +58,11 @@ defmodule B2Client.Mixfile do
 
   defp deps do
     [
-      {:httpoison, "~> 0.11.0"},
-      {:poison, "~> 3.0"},
-      {:exvcr, "~> 0.7", only: :test},
-      {:earmark, "~> 1.0", only: :dev},
-      {:ex_doc, "~> 0.11", only: :dev}
+      {:httpoison, "~> 1.1.0"},
+      {:jason, "~> 1.0"},
+      {:exvcr, "~> 0.10.1", only: :test},
+      {:earmark, "~> 1.2.5", only: :dev},
+      {:ex_doc, "~> 0.18.3", only: :dev}
     ]
   end
 end
