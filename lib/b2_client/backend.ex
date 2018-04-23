@@ -6,10 +6,12 @@ defmodule B2Client.Backend do
 
   @type file_contents :: iodata
   @type file_name :: String.t
+  @type file_id :: String.t
 
   @callback authenticate(account_id, application_key) :: {:ok, Authorization.t} | {:error, atom}
   @callback get_bucket(Authorization.t, String.t) :: {:ok, Bucket.t} | {:error, atom}
 
+  @callback download(Authorization.t, file_id) :: {:ok, file_contents} | {:error, atom}
   @callback download(Authorization.t, Bucket.t, Path.t) :: {:ok, file_contents} | {:error, atom}
   @callback download_head(Authorization.t, Bucket.t, Path.t) :: {:ok, non_neg_integer} | {:error, atom}
 

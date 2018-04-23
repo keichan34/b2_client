@@ -86,6 +86,22 @@ defmodule B2Client.Backend.HTTPoison do
     end
   end
 
+  def download(b2, file_id) do
+    uri = get_download_url(b2, file_id)
+
+    case get(uri, headers(:get, b2), []) do
+      {:ok, %{status_code: 200, body: body}} ->
+        {:ok, body}
+
+      {:ok, %{status_code: code, body: original_body}} ->
+        body = Jason.decode!(original_body)
+        {:error, {:"http_#{code}", body["message"]}}
+
+      {:error, reason} ->
+        {:error, reason}
+    end
+  end
+
   def download_head(b2, bucket, path) do
     uri = get_download_url(b2, bucket, path)
 
@@ -258,6 +274,10 @@ defmodule B2Client.Backend.HTTPoison do
 
   defp get_download_url(%{download_url: download_url}, %{bucket_name: bucket_name}, filename) do
     download_url <> "/file/" <> bucket_name <> "/" <> filename
+  end
+
+  defp get_download_url(%{download_url: download_url}, file_id) do
+    download_url <> "/b2api/v1/b2_download_file_by_id?fileId=" <> file_id
   end
 
   defp to_file(file, bucket \\ %Bucket{}) do
