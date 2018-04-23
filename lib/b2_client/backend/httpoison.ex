@@ -123,6 +123,35 @@ defmodule B2Client.Backend.HTTPoison do
     end
   end
 
+  def download_head(b2, file_id) do
+    uri = get_download_url(b2, file_id)
+
+    case head(uri, headers(:head, b2), []) do
+      {:ok, %{status_code: 200, headers: headers}} ->
+        {_, size} =
+          Enum.find(headers, {nil, 0}, fn {key, _} ->
+            String.downcase(key) == "content-length"
+          end)
+        {_, filename} =
+          Enum.find(headers, {nil, 0}, fn {key, _} ->
+            String.downcase(key) == "x-bz-file-name"
+          end)
+
+        {:ok, %{
+            size: String.to_integer(size),
+            filename: filename
+          }
+        }
+
+      {:ok, %{status_code: code, body: original_body}} ->
+        body = Jason.decode!(original_body)
+        {:error, {:"http_#{code}", body["message"]}}
+
+      {:error, reason} ->
+        {:error, reason}
+    end
+  end
+
   def get_upload_url(b2, bucket) do
     uri = b2.api_url <> "/b2api/v1/b2_get_upload_url"
     {:ok, request_body} = Jason.encode(%{"bucketId" => bucket.bucket_id})
