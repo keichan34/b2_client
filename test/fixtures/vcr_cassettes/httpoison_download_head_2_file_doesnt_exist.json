@@ -47,8 +47,8 @@
         "Content-Length": "91",
         "Date": "Mon, 23 Apr 2018 15:48:20 GMT"
       },
-      "status_code": 401,
-      "type": "error"
+      "status_code": 400,
+      "type": "ok"
     }
   }
 ]

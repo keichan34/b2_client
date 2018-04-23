@@ -113,7 +113,8 @@ defmodule B2Client.Backend.HTTPoison do
           end)
 
         {:ok, String.to_integer(size)}
-
+      {:ok, %{status_code: 400, headers: _headers}} ->
+        {:error, "Bad request"}
       {:error, reason} ->
         {:error, reason}
     end
@@ -138,7 +139,8 @@ defmodule B2Client.Backend.HTTPoison do
             filename: filename
           }
         }
-
+      {:ok, %{status_code: 400, headers: _headers}} ->
+        {:error, "Bad request"}
       {:error, reason} ->
         {:error, reason}
     end
