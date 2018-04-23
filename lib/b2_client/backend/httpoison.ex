@@ -114,10 +114,6 @@ defmodule B2Client.Backend.HTTPoison do
 
         {:ok, String.to_integer(size)}
 
-      {:ok, %{status_code: code, body: original_body}} ->
-        body = Jason.decode!(original_body)
-        {:error, {:"http_#{code}", body["message"]}}
-
       {:error, reason} ->
         {:error, reason}
     end
@@ -142,10 +138,6 @@ defmodule B2Client.Backend.HTTPoison do
             filename: filename
           }
         }
-
-      {:ok, %{status_code: code, body: original_body}} ->
-        body = Jason.decode!(original_body)
-        {:error, {:"http_#{code}", body["message"]}}
 
       {:error, reason} ->
         {:error, reason}
