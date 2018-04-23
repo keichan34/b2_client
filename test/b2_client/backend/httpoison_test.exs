@@ -87,6 +87,27 @@ defmodule B2Client.Backend.HTTPoisonTest do
     end
   end
 
+
+  test "download_head/3 when the file exists" do
+    use_cassette "httpoison_download_head_3_file_exists" do
+      {:ok, auth} = backend().authenticate(@account_id, @application_key)
+      {:ok, bucket} = backend().get_bucket(auth, "ex-b2-client-test-bucket")
+      filename = "hello_there.txt"
+
+      assert {:ok, 11} = backend().download_head(auth, bucket, filename)
+    end
+  end
+
+  test "download_head/3 when the file doesn't exist" do
+    use_cassette "httpoison_download_head_3_file_doesnt_exist" do
+      {:ok, auth} = backend().authenticate(@account_id, @application_key)
+      {:ok, bucket} = backend().get_bucket(auth, "ex-b2-client-test-bucket")
+      filename = "nope.txt"
+
+      assert {:error, _} = backend().download_head(auth, bucket, filename)
+    end
+  end
+
   test "upload/4 to a Bucket.t" do
     use_cassette "httpoison_upload_4_bucket" do
       {:ok, auth} = backend().authenticate(@account_id, @application_key)
