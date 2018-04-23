@@ -149,7 +149,11 @@ defmodule B2Client.Backend.HTTPoison do
       {"X-Bz-Content-Sha1", sha1hash(iodata)}
     ]
 
-    case post(auth.upload_url, iodata, headers, []) do
+    options = [
+      recv_timeout: :infinity
+    ]
+
+    case post(auth.upload_url, iodata, headers, options) do
       {:ok, %{status_code: 200, body: original_body}} ->
         body = Jason.decode!(original_body)
         {:ok, to_file(body)}
