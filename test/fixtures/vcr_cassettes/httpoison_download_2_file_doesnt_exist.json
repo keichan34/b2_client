@@ -1,0 +1,54 @@
+[
+  {
+    "request": {
+      "body": "",
+      "headers": {
+        "Authorization": "Basic dmFsaWRfYWNjb3VudF9pZDp2YWxpZF9hcHBsaWNhdGlvbl9rZXk="
+      },
+      "method": "get",
+      "options": [],
+      "request_body": "",
+      "url": "https://api.backblaze.com/b2api/v1/b2_authorize_account"
+    },
+    "response": {
+      "body": "{\n  \"accountId\": \"valid_account_id\",\n  \"apiUrl\": \"https://api000.backblaze.com\",\n  \"authorizationToken\": \"3_2016XXXXXXXXXX_XXXXXXXXXXXXXXXXXXXXXXXX_XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX_000_acct\",\n  \"downloadUrl\": \"https://f000.backblaze.com\",\n  \"minimumPartSize\": 100000000\n}\n",
+      "headers": {
+        "Server": "Apache-Coyote/1.1",
+        "Cache-Control": "max-age=0, no-cache, no-store",
+        "Content-Type": "application/json;charset=UTF-8",
+        "Content-Length": "276",
+        "Date": "Mon, 02 May 2016 06:15:03 GMT"
+      },
+      "status_code": 200,
+      "type": "ok"
+    }
+  },
+  {
+    "request": {
+      "body": "",
+      "headers": {
+        "Accept": "application/json",
+        "Authorization": "3_2016XXXXXXXXXX_XXXXXXXXXXXXXXXXXXXXXXXX_XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX_000_acct",
+        "User-Agent": "Elixir/B2Client"
+      },
+      "method": "get",
+      "options": [],
+      "request_body": "",
+      "url": "https://f000.backblaze.com/b2api/v1/b2_download_file_by_id?fileId=4_z6dd33353ffdd65f85e410312_f1172ee1b90ad92b9_d20160502_m061500_c000_v0001007_t0026"
+    },
+    "response": {
+      "binary": false,
+      "body": "{\n  \"code\": \"bad_auth_token\",\n  \"message\": \"Invalid authorization token\",\n  \"status\": 401\n}",
+      "headers": {
+        "Server": "Apache-Coyote/1.1",
+        "Cache-Control": "max-age=0, no-cache, no-store",
+        "WWW-Authenticate": "BASIC realm=\"authorize_account\"",
+        "Content-Type": "application/json;charset=UTF-8",
+        "Content-Length": "91",
+        "Date": "Tue, 24 Apr 2018 02:20:00 GMT"
+      },
+      "status_code": 401,
+      "type": "ok"
+    }
+  }
+]
