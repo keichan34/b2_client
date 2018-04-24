@@ -1,0 +1,58 @@
+[
+  {
+    "request": {
+      "body": "",
+      "headers": {
+        "Authorization": "Basic dmFsaWRfYWNjb3VudF9pZDp2YWxpZF9hcHBsaWNhdGlvbl9rZXk="
+      },
+      "method": "get",
+      "options": [],
+      "request_body": "",
+      "url": "https://api.backblaze.com/b2api/v1/b2_authorize_account"
+    },
+    "response": {
+      "body": "{\n  \"accountId\": \"valid_account_id\",\n  \"apiUrl\": \"https://api000.backblaze.com\",\n  \"authorizationToken\": \"3_2016XXXXXXXXXX_XXXXXXXXXXXXXXXXXXXXXXXX_XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX_000_acct\",\n  \"downloadUrl\": \"https://f000.backblaze.com\",\n  \"minimumPartSize\": 100000000\n}\n",
+      "headers": {
+        "Server": "Apache-Coyote/1.1",
+        "Cache-Control": "max-age=0, no-cache, no-store",
+        "Content-Type": "application/json;charset=UTF-8",
+        "Content-Length": "276",
+        "Date": "Mon, 02 May 2016 06:15:03 GMT"
+      },
+      "status_code": 200,
+      "type": "ok"
+    }
+  },
+  {
+    "request": {
+      "body": "",
+      "headers": {
+        "Accept": "application/json",
+        "Authorization": "3_2016XXXXXXXXXX_XXXXXXXXXXXXXXXXXXXXXXXX_XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX_000_acct",
+        "User-Agent": "Elixir/B2Client"
+      },
+      "method": "head",
+      "options": [],
+      "request_body": "",
+      "url": "https://f000.backblaze.com/b2api/v1/b2_download_file_by_id?fileId=4_z6dd33353ffdd65f85e410312_f1172ee1b90ad92b9_d20160502_m061500_c000_v0001007_t0027"
+    },
+    "response": {
+      "binary": false,
+      "body": null,
+      "headers": {
+        "Server": "Apache-Coyote/1.1",
+        "Cache-Control": "max-age=0, no-cache, no-store",
+        "x-bz-file-name": "hello_there.txt",
+        "x-bz-file-id": "4_z6dd33353ffdd65f85e410312_f1172ee1b90ad92b9_d20160502_m061500_c000_v0001007_t0027",
+        "x-bz-content-sha1": "2ebcd8245cc6251c2eaa888d59b69c04643bbcde",
+        "X-Bz-Upload-Timestamp": "1524435650000",
+        "Accept-Ranges": "bytes",
+        "Content-Type": "application/pdf",
+        "Content-Length": "11",
+        "Date": "Mon, 23 Apr 2018 15:29:29 GMT"
+      },
+      "status_code": 200,
+      "type": "ok"
+    }
+  }
+]

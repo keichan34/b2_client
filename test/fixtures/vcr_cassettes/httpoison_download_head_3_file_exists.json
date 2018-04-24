@@ -52,15 +52,18 @@
     "request": {
       "body": "",
       "headers": {
-        "Authorization": "3_2016XXXXXXXXXX_XXXXXXXXXXXXXXXXXXXXXXXX_XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX_000_acct"
+        "Accept": "application/json",
+        "Authorization": "3_2016XXXXXXXXXX_XXXXXXXXXXXXXXXXXXXXXXXX_XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX_000_acct",
+        "User-Agent": "Elixir/B2Client"
       },
-      "method": "get",
+      "method": "head",
       "options": [],
       "request_body": "",
       "url": "https://f000.backblaze.com/file/ex-b2-client-test-bucket/hello_there.txt"
     },
     "response": {
-      "body": "hello there",
+      "binary": false,
+      "body": null,
       "headers": {
         "Server": "Apache-Coyote/1.1",
         "Cache-Control": "max-age=0, no-cache, no-store",
