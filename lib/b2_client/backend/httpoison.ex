@@ -19,6 +19,7 @@ defmodule B2Client.Backend.HTTPoison do
            account_id: body["accountId"],
            api_url: body["apiUrl"],
            authorization_token: body["authorizationToken"],
+           bucket_id: body["allowed"]["bucketId"],
            download_url: body["downloadUrl"]
          }}
 
@@ -168,6 +169,10 @@ defmodule B2Client.Backend.HTTPoison do
       {:error, reason} ->
         {:error, reason}
     end
+  end
+
+  def upload(b2, iodata, filename) do
+    upload(b2, %Bucket{bucket_id: b2.bucket_id}, iodata, filename)
   end
 
   def upload(b2, %Bucket{} = bucket, iodata, filename) do
