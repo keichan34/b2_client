@@ -58,7 +58,7 @@ defmodule B2Client.Mixfile do
 
   defp deps do
     [
-      {:httpoison, "~> 1.6,2"},
+      {:httpoison, "~> 1.6.2"},
       {:jason, "~> 1.1"},
       {:exvcr, "~> 0.10.1", only: :test},
       {:earmark, "~> 1.2.5", only: :dev},
