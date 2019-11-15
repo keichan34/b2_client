@@ -10,7 +10,7 @@ defmodule B2Client.Backend.HTTPoison do
       {"Authorization", authorization_header_contents(account_id, application_key)}
     ]
 
-    case get("https://api.backblaze.com/b2api/v1/b2_authorize_account", headers, []) do
+    case get("https://api.backblaze.com/b2api/v2/b2_authorize_account", headers, []) do
       {:ok, %{status_code: 200, body: original_body}} ->
         body = Jason.decode!(original_body)
 
@@ -36,7 +36,7 @@ defmodule B2Client.Backend.HTTPoison do
   end
 
   def get_bucket(b2, bucket_name) do
-    uri = b2.api_url <> "/b2api/v1/b2_list_buckets"
+    uri = b2.api_url <> "/b2api/v2/b2_list_buckets"
     {:ok, request_body} = Jason.encode(%{"accountId" => b2.account_id})
 
     case post(uri, request_body, headers(:post, b2), []) do
@@ -147,7 +147,7 @@ defmodule B2Client.Backend.HTTPoison do
   end
 
   def get_upload_url(b2, bucket) do
-    uri = b2.api_url <> "/b2api/v1/b2_get_upload_url"
+    uri = b2.api_url <> "/b2api/v2/b2_get_upload_url"
     {:ok, request_body} = Jason.encode(%{"bucketId" => bucket.bucket_id})
 
     case post(uri, request_body, headers(:post, b2), []) do
@@ -215,7 +215,7 @@ defmodule B2Client.Backend.HTTPoison do
   end
 
   def delete(b2, %File{} = file) do
-    uri = b2.api_url <> "/b2api/v1/b2_delete_file_version"
+    uri = b2.api_url <> "/b2api/v2/b2_delete_file_version"
 
     {:ok, request_body} =
       Jason.encode(%{
@@ -249,7 +249,7 @@ defmodule B2Client.Backend.HTTPoison do
   end
 
   def list_file_versions(b2, bucket, filename) when is_binary(filename) do
-    uri = b2.api_url <> "/b2api/v1/b2_list_file_versions"
+    uri = b2.api_url <> "/b2api/v2/b2_list_file_versions"
 
     {:ok, request_body} =
       Jason.encode(%{
@@ -300,7 +300,7 @@ defmodule B2Client.Backend.HTTPoison do
   end
 
   defp get_download_url(%{download_url: download_url}, file_id) do
-    download_url <> "/b2api/v1/b2_download_file_by_id?fileId=" <> file_id
+    download_url <> "/b2api/v2/b2_download_file_by_id?fileId=" <> file_id
   end
 
   defp to_file(file, bucket \\ %Bucket{}) do
