@@ -16,7 +16,7 @@ defmodule B2Client.Backend.HTTPoison do
 
         {:ok,
          %Authorization{
-           account_id: account_id,
+           account_id: body["accountId"],
            api_url: body["apiUrl"],
            authorization_token: body["authorizationToken"],
            download_url: body["downloadUrl"]
