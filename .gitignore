@@ -4,5 +4,6 @@
 erl_crash.dump
 *.ez
 /doc
+.elixir_ls
 
 /config/test.secret.exs
