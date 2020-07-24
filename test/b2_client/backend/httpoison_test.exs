@@ -6,7 +6,7 @@ defmodule B2Client.Backend.HTTPoisonTest do
 
   alias B2Client.{Authorization, Bucket, File}
 
-  @account_id Application.get_env(:b2_client, :account_id)
+  @application_key_id Application.get_env(:b2_client, :application_key_id)
   @application_key Application.get_env(:b2_client, :application_key)
 
   setup_all do
@@ -36,13 +36,13 @@ defmodule B2Client.Backend.HTTPoisonTest do
 
   test "authenticate/2" do
     use_cassette "httpoison_authenticate_2" do
-      assert {:ok, %Authorization{}} = backend().authenticate(@account_id, @application_key)
+      assert {:ok, %Authorization{}} = backend().authenticate(@application_key_id, @application_key)
     end
   end
 
   test "get_bucket/2" do
     use_cassette "httpoison_get_bucket_2" do
-      {:ok, auth} = backend().authenticate(@account_id, @application_key)
+      {:ok, auth} = backend().authenticate(@application_key_id, @application_key)
       assert {:ok, %Bucket{} = bucket} = backend().get_bucket(auth, "ex-b2-client-test-bucket")
       assert bucket.bucket_name == "ex-b2-client-test-bucket"
       assert bucket.bucket_id == "6dd33353ffdd65f85e410312"
@@ -53,7 +53,7 @@ defmodule B2Client.Backend.HTTPoisonTest do
 
   test "download/2 when the file exists" do
     use_cassette "httpoison_download_2_file_exists" do
-      {:ok, auth} = backend().authenticate(@account_id, @application_key)
+      {:ok, auth} = backend().authenticate(@application_key_id, @application_key)
       file_id = "4_z6dd33353ffdd65f85e410312_f1172ee1b90ad92b9_d20160502_m061500_c000_v0001007_t0027"
 
       assert {:ok, "hello there"} = backend().download(auth, file_id)
@@ -62,7 +62,7 @@ defmodule B2Client.Backend.HTTPoisonTest do
 
   test "download/2 when the file doesn't exist" do
     use_cassette "httpoison_download_2_file_doesnt_exist" do
-      {:ok, auth} = backend().authenticate(@account_id, @application_key)
+      {:ok, auth} = backend().authenticate(@application_key_id, @application_key)
       file_id = "4_z6dd33353ffdd65f85e410312_f1172ee1b90ad92b9_d20160502_m061500_c000_v0001007_t0026"
 
       assert {:error, {:http_401, _}} = backend().download(auth, file_id)
@@ -71,7 +71,7 @@ defmodule B2Client.Backend.HTTPoisonTest do
 
   test "download/3 when the file exists" do
     use_cassette "httpoison_download_3_file_exists" do
-      {:ok, auth} = backend().authenticate(@account_id, @application_key)
+      {:ok, auth} = backend().authenticate(@application_key_id, @application_key)
       assert {:ok, %Bucket{} = bucket} = backend().get_bucket(auth, "ex-b2-client-test-bucket")
 
       assert {:ok, "hello there"} = backend().download(auth, bucket, "hello_there.txt")
@@ -80,7 +80,7 @@ defmodule B2Client.Backend.HTTPoisonTest do
 
   test "download/3 when the file doesn't exist" do
     use_cassette "httpoison_download_3_file_doesnt_exist" do
-      {:ok, auth} = backend().authenticate(@account_id, @application_key)
+      {:ok, auth} = backend().authenticate(@application_key_id, @application_key)
       assert {:ok, %Bucket{} = bucket} = backend().get_bucket(auth, "ex-b2-client-test-bucket")
 
       assert {:error, {:http_404, _}} = backend().download(auth, bucket, "nope.txt")
@@ -89,7 +89,7 @@ defmodule B2Client.Backend.HTTPoisonTest do
 
   test "download_head/2 when the file exists" do
     use_cassette "httpoison_download_head_2_file_exists" do
-      {:ok, auth} = backend().authenticate(@account_id, @application_key)
+      {:ok, auth} = backend().authenticate(@application_key_id, @application_key)
       file_id = "4_z6dd33353ffdd65f85e410312_f1172ee1b90ad92b9_d20160502_m061500_c000_v0001007_t0027"
 
       assert {:ok, %{filename: "hello_there.txt", size: 11}} = backend().download_head(auth, file_id)
@@ -98,7 +98,7 @@ defmodule B2Client.Backend.HTTPoisonTest do
 
   test "download_head/2 when the file doesn't exist" do
     use_cassette "httpoison_download_head_2_file_doesnt_exist" do
-      {:ok, auth} = backend().authenticate(@account_id, @application_key)
+      {:ok, auth} = backend().authenticate(@application_key_id, @application_key)
       file_id = "4_z6dd33353ffdd65f85e410312_f1172ee1b90ad92b9_d20160502_m061500_c000_v0001007_t0026"
 
       assert {:error, _} = backend().download_head(auth, file_id)
@@ -108,7 +108,7 @@ defmodule B2Client.Backend.HTTPoisonTest do
 
   test "download_head/3 when the file exists" do
     use_cassette "httpoison_download_head_3_file_exists" do
-      {:ok, auth} = backend().authenticate(@account_id, @application_key)
+      {:ok, auth} = backend().authenticate(@application_key_id, @application_key)
       {:ok, bucket} = backend().get_bucket(auth, "ex-b2-client-test-bucket")
       filename = "hello_there.txt"
 
@@ -118,7 +118,7 @@ defmodule B2Client.Backend.HTTPoisonTest do
 
   test "download_head/3 when the file doesn't exist" do
     use_cassette "httpoison_download_head_3_file_doesnt_exist" do
-      {:ok, auth} = backend().authenticate(@account_id, @application_key)
+      {:ok, auth} = backend().authenticate(@application_key_id, @application_key)
       {:ok, bucket} = backend().get_bucket(auth, "ex-b2-client-test-bucket")
       filename = "nope.txt"
 
@@ -128,7 +128,7 @@ defmodule B2Client.Backend.HTTPoisonTest do
 
   test "upload/4 to a Bucket.t" do
     use_cassette "httpoison_upload_4_bucket" do
-      {:ok, auth} = backend().authenticate(@account_id, @application_key)
+      {:ok, auth} = backend().authenticate(@application_key_id, @application_key)
       assert {:ok, %Bucket{} = bucket} = backend().get_bucket(auth, "ex-b2-client-test-bucket")
 
       assert {:ok, %File{} = file} =

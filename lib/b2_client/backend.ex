@@ -1,14 +1,14 @@
 defmodule B2Client.Backend do
   alias B2Client.{Authorization, Bucket, File, UploadAuthorization}
 
-  @type account_id :: String.t
+  @type application_key_id :: String.t
   @type application_key :: String.t
 
   @type file_contents :: iodata
   @type file_name :: String.t
   @type file_id :: String.t
 
-  @callback authenticate(account_id, application_key) :: {:ok, Authorization.t} | {:error, atom}
+  @callback authenticate(application_key_id, application_key) :: {:ok, Authorization.t} | {:error, atom}
   @callback get_bucket(Authorization.t, String.t) :: {:ok, Bucket.t} | {:error, atom}
 
   @callback download(Authorization.t, file_id) :: {:ok, file_contents} | {:error, atom}

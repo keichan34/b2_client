@@ -5,7 +5,7 @@ defmodule B2Client.Backend.MemoryTest do
 
   alias B2Client.{Authorization, Bucket, File}
 
-  @account_id "valid_account_id"
+  @application_key_id "valid_application_key_id"
   @application_key "valid_application_key"
 
   setup do
@@ -14,11 +14,11 @@ defmodule B2Client.Backend.MemoryTest do
   end
 
   test "authenticate/2" do
-    assert {:ok, %Authorization{}} = backend().authenticate(@account_id, @application_key)
+    assert {:ok, %Authorization{}} = backend().authenticate(@application_key_id, @application_key)
   end
 
   test "get_bucket/2" do
-    {:ok, auth} = backend().authenticate(@account_id, @application_key)
+    {:ok, auth} = backend().authenticate(@application_key_id, @application_key)
     assert {:ok, %Bucket{} = bucket} = backend().get_bucket(auth, "ex-b2-client-test-bucket")
     assert bucket.bucket_name == "ex-b2-client-test-bucket"
     assert bucket.bucket_id == "8c654d7edfe71ef507ed5c27d6b787a5"
@@ -27,7 +27,7 @@ defmodule B2Client.Backend.MemoryTest do
   end
 
   test "download/3 when the file exists" do
-    {:ok, auth} = backend().authenticate(@account_id, @application_key)
+    {:ok, auth} = backend().authenticate(@application_key_id, @application_key)
     assert {:ok, %Bucket{} = bucket} = backend().get_bucket(auth, "ex-b2-client-test-bucket")
 
     {:ok, %File{}} = backend().upload(auth, bucket, "hello there", "hello_there.txt")
@@ -35,14 +35,14 @@ defmodule B2Client.Backend.MemoryTest do
   end
 
   test "download/3 when the file doesn't exist" do
-    {:ok, auth} = backend().authenticate(@account_id, @application_key)
+    {:ok, auth} = backend().authenticate(@application_key_id, @application_key)
     assert {:ok, %Bucket{} = bucket} = backend().get_bucket(auth, "ex-b2-client-test-bucket")
 
     assert {:error, {:http_404, _}} = backend().download(auth, bucket, "nope.txt")
   end
 
   test "upload/4 to a Bucket.t" do
-    {:ok, auth} = backend().authenticate(@account_id, @application_key)
+    {:ok, auth} = backend().authenticate(@application_key_id, @application_key)
     assert {:ok, %Bucket{} = bucket} = backend().get_bucket(auth, "ex-b2-client-test-bucket")
 
     assert {:ok, %File{} = file} =

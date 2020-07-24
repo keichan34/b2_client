@@ -5,9 +5,9 @@ defmodule B2Client.Backend.HTTPoison do
 
   @behaviour B2Client.Backend
 
-  def authenticate(account_id, application_key) do
+  def authenticate(application_key_id, application_key) do
     headers = [
-      {"Authorization", authorization_header_contents(account_id, application_key)}
+      {"Authorization", authorization_header_contents(application_key_id, application_key)}
     ]
 
     case get("https://api.backblaze.com/b2api/v2/b2_authorize_account", headers, []) do
@@ -32,8 +32,8 @@ defmodule B2Client.Backend.HTTPoison do
     end
   end
 
-  defp authorization_header_contents(account_id, application_key) do
-    "Basic " <> Base.encode64(account_id <> ":" <> application_key)
+  defp authorization_header_contents(application_key_id, application_key) do
+    "Basic " <> Base.encode64(application_key_id <> ":" <> application_key)
   end
 
   def get_bucket(b2, bucket_name) do
