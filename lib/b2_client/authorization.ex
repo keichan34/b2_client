@@ -1,6 +1,9 @@
 defmodule B2Client.Authorization do
-  defstruct api_url: nil, authorization_token: nil, download_url: nil,
-            account_id: nil, bucket_id: nil
+  defstruct account_id: nil,
+            api_url: nil,
+            authorization_token: nil,
+            bucket_id: nil,
+            download_url: nil
 
   @type t :: %B2Client.Authorization{
     account_id: String.t,

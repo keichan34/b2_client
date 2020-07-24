@@ -38,7 +38,10 @@ defmodule B2Client.Backend.HTTPoison do
 
   def get_bucket(b2, bucket_name) do
     uri = b2.api_url <> "/b2api/v2/b2_list_buckets"
-    {:ok, request_body} = Jason.encode(%{"accountId" => b2.account_id})
+    {:ok, request_body} = Jason.encode(%{
+      "accountId" => b2.account_id,
+      "bucketName" => bucket_name
+    })
 
     case post(uri, request_body, headers(:post, b2), []) do
       {:ok, %{status_code: 200, body: original_body}} ->
@@ -116,6 +119,8 @@ defmodule B2Client.Backend.HTTPoison do
         {:ok, String.to_integer(size)}
       {:ok, %{status_code: 400, headers: _headers}} ->
         {:error, "Bad request"}
+      {:ok, %{status_code: 404, headers: _headers}} ->
+        {:error, "File does not exist"}
       {:error, reason} ->
         {:error, reason}
     end
@@ -142,6 +147,8 @@ defmodule B2Client.Backend.HTTPoison do
         }
       {:ok, %{status_code: 400, headers: _headers}} ->
         {:error, "Bad request"}
+      {:ok, %{status_code: 404, headers: _headers}} ->
+        {:error, "File does not exist"}
       {:error, reason} ->
         {:error, reason}
     end
