@@ -4,7 +4,7 @@ defmodule B2Client.Mixfile do
   def project do
     [
       app: :b2_client,
-      version: "0.0.3",
+      version: "0.0.4",
       elixir: "~> 1.4",
       build_embedded: Mix.env() == :prod,
       start_permanent: Mix.env() == :prod,
@@ -58,11 +58,11 @@ defmodule B2Client.Mixfile do
 
   defp deps do
     [
-      {:httpoison, "~> 1.1.0"},
-      {:jason, "~> 1.0"},
-      {:exvcr, "~> 0.10.1", only: :test},
-      {:earmark, "~> 1.2.5", only: :dev},
-      {:ex_doc, "~> 0.18.3", only: :dev}
+      {:httpoison, "~> 1.7"},
+      {:jason, "~> 1.2"},
+      {:exvcr, "~> 0.11", only: :test},
+      {:earmark, "~> 1.4", only: :dev},
+      {:ex_doc, "~> 0.22", only: :dev}
     ]
   end
 end

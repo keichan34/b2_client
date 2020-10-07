@@ -5,20 +5,21 @@ defmodule B2Client.Backend.HTTPoison do
 
   @behaviour B2Client.Backend
 
-  def authenticate(account_id, application_key) do
+  def authenticate(application_key_id, application_key) do
     headers = [
-      {"Authorization", authorization_header_contents(account_id, application_key)}
+      {"Authorization", authorization_header_contents(application_key_id, application_key)}
     ]
 
-    case get("https://api.backblaze.com/b2api/v1/b2_authorize_account", headers, []) do
+    case get("https://api.backblaze.com/b2api/v2/b2_authorize_account", headers, []) do
       {:ok, %{status_code: 200, body: original_body}} ->
         body = Jason.decode!(original_body)
 
         {:ok,
          %Authorization{
-           account_id: account_id,
+           account_id: body["accountId"],
            api_url: body["apiUrl"],
            authorization_token: body["authorizationToken"],
+           bucket_id: body["allowed"]["bucketId"],
            download_url: body["downloadUrl"]
          }}
 
@@ -31,13 +32,16 @@ defmodule B2Client.Backend.HTTPoison do
     end
   end
 
-  defp authorization_header_contents(account_id, application_key) do
-    "Basic " <> Base.encode64(account_id <> ":" <> application_key)
+  defp authorization_header_contents(application_key_id, application_key) do
+    "Basic " <> Base.encode64(application_key_id <> ":" <> application_key)
   end
 
   def get_bucket(b2, bucket_name) do
-    uri = b2.api_url <> "/b2api/v1/b2_list_buckets"
-    {:ok, request_body} = Jason.encode(%{"accountId" => b2.account_id})
+    uri = b2.api_url <> "/b2api/v2/b2_list_buckets"
+    {:ok, request_body} = Jason.encode(%{
+      "accountId" => b2.account_id,
+      "bucketName" => bucket_name
+    })
 
     case post(uri, request_body, headers(:post, b2), []) do
       {:ok, %{status_code: 200, body: original_body}} ->
@@ -115,6 +119,8 @@ defmodule B2Client.Backend.HTTPoison do
         {:ok, String.to_integer(size)}
       {:ok, %{status_code: 400, headers: _headers}} ->
         {:error, "Bad request"}
+      {:ok, %{status_code: 404, headers: _headers}} ->
+        {:error, "File does not exist"}
       {:error, reason} ->
         {:error, reason}
     end
@@ -141,13 +147,15 @@ defmodule B2Client.Backend.HTTPoison do
         }
       {:ok, %{status_code: 400, headers: _headers}} ->
         {:error, "Bad request"}
+      {:ok, %{status_code: 404, headers: _headers}} ->
+        {:error, "File does not exist"}
       {:error, reason} ->
         {:error, reason}
     end
   end
 
   def get_upload_url(b2, bucket) do
-    uri = b2.api_url <> "/b2api/v1/b2_get_upload_url"
+    uri = b2.api_url <> "/b2api/v2/b2_get_upload_url"
     {:ok, request_body} = Jason.encode(%{"bucketId" => bucket.bucket_id})
 
     case post(uri, request_body, headers(:post, b2), []) do
@@ -168,6 +176,10 @@ defmodule B2Client.Backend.HTTPoison do
       {:error, reason} ->
         {:error, reason}
     end
+  end
+
+  def upload(b2, iodata, filename) do
+    upload(b2, %Bucket{bucket_id: b2.bucket_id}, iodata, filename)
   end
 
   def upload(b2, %Bucket{} = bucket, iodata, filename) do
@@ -215,7 +227,7 @@ defmodule B2Client.Backend.HTTPoison do
   end
 
   def delete(b2, %File{} = file) do
-    uri = b2.api_url <> "/b2api/v1/b2_delete_file_version"
+    uri = b2.api_url <> "/b2api/v2/b2_delete_file_version"
 
     {:ok, request_body} =
       Jason.encode(%{
@@ -249,7 +261,7 @@ defmodule B2Client.Backend.HTTPoison do
   end
 
   def list_file_versions(b2, bucket, filename) when is_binary(filename) do
-    uri = b2.api_url <> "/b2api/v1/b2_list_file_versions"
+    uri = b2.api_url <> "/b2api/v2/b2_list_file_versions"
 
     {:ok, request_body} =
       Jason.encode(%{
@@ -300,7 +312,7 @@ defmodule B2Client.Backend.HTTPoison do
   end
 
   defp get_download_url(%{download_url: download_url}, file_id) do
-    download_url <> "/b2api/v1/b2_download_file_by_id?fileId=" <> file_id
+    download_url <> "/b2api/v2/b2_download_file_by_id?fileId=" <> file_id
   end
 
   defp to_file(file, bucket \\ %Bucket{}) do

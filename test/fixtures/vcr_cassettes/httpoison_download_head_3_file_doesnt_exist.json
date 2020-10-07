@@ -3,21 +3,21 @@
     "request": {
       "body": "",
       "headers": {
-        "Authorization": "Basic dmFsaWRfYWNjb3VudF9pZDp2YWxpZF9hcHBsaWNhdGlvbl9rZXk="
+        "Authorization": "***"
       },
       "method": "get",
       "options": [],
       "request_body": "",
-      "url": "https://api.backblaze.com/b2api/v1/b2_authorize_account"
+      "url": "https://api.backblaze.com/b2api/v2/b2_authorize_account"
     },
     "response": {
-      "body": "{\n  \"accountId\": \"valid_account_id\",\n  \"apiUrl\": \"https://api000.backblaze.com\",\n  \"authorizationToken\": \"3_2016XXXXXXXXXX_XXXXXXXXXXXXXXXXXXXXXXXX_XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX_000_acct\",\n  \"downloadUrl\": \"https://f000.backblaze.com\",\n  \"minimumPartSize\": 100000000\n}\n",
+      "binary": false,
+      "body": "{\n  \"absoluteMinimumPartSize\": 5000000,\n  \"accountId\":\"CENSORED\",\n  \"allowed\": {\n    \"bucketId\": null,\n    \"bucketName\": null,\n    \"capabilities\": [\n      \"listKeys\",\n      \"writeKeys\",\n      \"deleteKeys\",\n      \"listBuckets\",\n      \"writeBuckets\",\n      \"deleteBuckets\",\n      \"readBuckets\",\n      \"listFiles\",\n      \"readFiles\",\n      \"shareFiles\",\n      \"writeFiles\",\n      \"deleteFiles\"\n    ],\n    \"namePrefix\": null\n  },\n  \"apiUrl\": \"https://api003.backblazeb2.com\",\n  \"authorizationToken\": \"CENSORED\",\n  \"downloadUrl\": \"https://f003.backblazeb2.com\",\n  \"recommendedPartSize\": 100000000\n}\n",
       "headers": {
-        "Server": "Apache-Coyote/1.1",
         "Cache-Control": "max-age=0, no-cache, no-store",
         "Content-Type": "application/json;charset=UTF-8",
-        "Content-Length": "276",
-        "Date": "Mon, 02 May 2016 06:15:03 GMT"
+        "Content-Length": "668",
+        "Date": "Fri, 24 Jul 2020 22:17:44 GMT"
       },
       "status_code": 200,
       "type": "ok"
@@ -25,24 +25,26 @@
   },
   {
     "request": {
-      "body": "{\"accountId\":\"valid_account_id\"}",
+      "body": "{\"accountId\":\"CENSORED\",\"bucketName\":\"b2client-test\"}",
       "headers": {
-        "Authorization": "3_2016XXXXXXXXXX_XXXXXXXXXXXXXXXXXXXXXXXX_XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX_000_acct",
+        "Accept": "application/json",
+        "Authorization": "***",
+        "User-Agent": "Elixir/B2Client",
         "Content-Type": "application/json"
       },
       "method": "post",
       "options": [],
       "request_body": "",
-      "url": "https://api000.backblaze.com/b2api/v1/b2_list_buckets"
+      "url": "https://api003.backblazeb2.com/b2api/v2/b2_list_buckets"
     },
     "response": {
-      "body": "{\n  \"buckets\": [\n    {\n      \"accountId\": \"valid_account_id\",\n      \"bucketId\": \"6dd33353ffdd65f85e410312\",\n      \"bucketName\": \"ex-b2-client-test-bucket\",\n      \"bucketType\": \"allPrivate\"\n    },\n    {\n      \"accountId\": \"valid_account_id\",\n      \"bucketId\": \"bd4343937f6d75785e210312\",\n      \"bucketName\": \"kk-movie-bucket\",\n      \"bucketType\": \"allPrivate\"\n    },\n    {\n      \"accountId\": \"valid_account_id\",\n      \"bucketId\": \"ed23a3638fad05a85e210312\",\n      \"bucketName\": \"privatelog-local\",\n      \"bucketType\": \"allPrivate\"\n    },\n    {\n      \"accountId\": \"valid_account_id\",\n      \"bucketId\": \"5d93d323af4d65485e310312\",\n      \"bucketName\": \"privatelog-prod\",\n      \"bucketType\": \"allPrivate\"\n    },\n    {\n      \"accountId\": \"valid_account_id\",\n      \"bucketId\": \"fd63e3836f1d25785e110312\",\n      \"bucketName\": \"privatelog-staging\",\n      \"bucketType\": \"allPrivate\"\n    },\n    {\n      \"accountId\": \"valid_account_id\",\n      \"bucketId\": \"cd3353130fed25f85e110312\",\n      \"bucketName\": \"refile-test-bucket\",\n      \"bucketType\": \"allPrivate\"\n    },\n    {\n      \"accountId\": \"valid_account_id\",\n      \"bucketId\": \"7db353431f7d05685e210312\",\n      \"bucketName\": \"refile-test-public\",\n      \"bucketType\": \"allPublic\"\n    }\n  ]\n}\n",
+      "binary": false,
+      "body": "{\n  \"buckets\": [\n    {\n      \"accountId\":\"CENSORED\",\n      \"bucketId\": \"84033973b2fd87077f35021f\",\n      \"bucketInfo\": {},\n      \"bucketName\": \"b2client-test\",\n      \"bucketType\": \"allPrivate\",\n      \"corsRules\": [],\n      \"lifecycleRules\": [],\n      \"options\": [\n        \"s3\"\n      ],\n      \"revision\": 2\n    }\n  ]\n}\n",
       "headers": {
-        "Server": "Apache-Coyote/1.1",
         "Cache-Control": "max-age=0, no-cache, no-store",
         "Content-Type": "application/json;charset=UTF-8",
-        "Content-Length": "1202",
-        "Date": "Mon, 02 May 2016 06:15:03 GMT"
+        "Content-Length": "323",
+        "Date": "Fri, 24 Jul 2020 22:17:43 GMT"
       },
       "status_code": 200,
       "type": "ok"
@@ -53,25 +55,24 @@
       "body": "",
       "headers": {
         "Accept": "application/json",
-        "Authorization": "3_2016XXXXXXXXXX_XXXXXXXXXXXXXXXXXXXXXXXX_XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX_000_acct",
+        "Authorization": "***",
         "User-Agent": "Elixir/B2Client"
       },
       "method": "head",
       "options": [],
       "request_body": "",
-      "url": "https://f000.backblaze.com/file/ex-b2-client-test-bucket/nope.txt"
+      "url": "https://f003.backblazeb2.com/file/b2client-test/nope.txt"
     },
     "response": {
       "binary": false,
       "body": null,
       "headers": {
-        "Server": "Apache-Coyote/1.1",
         "Cache-Control": "max-age=0, no-cache, no-store",
-        "Content-Type": "application/json;charset=UTF-8",
-        "Content-Length": "106",
-        "Date": "Mon, 23 Apr 2018 17:34:32 GMT"
+        "Content-Type": "application/json;charset=utf-8",
+        "Content-Length": "108",
+        "Date": "Fri, 24 Jul 2020 22:17:43 GMT"
       },
-      "status_code": 400,
+      "status_code": 404,
       "type": "ok"
     }
   }

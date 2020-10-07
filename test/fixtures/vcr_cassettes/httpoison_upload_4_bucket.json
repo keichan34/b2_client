@@ -3,21 +3,21 @@
     "request": {
       "body": "",
       "headers": {
-        "Authorization": "Basic dmFsaWRfYWNjb3VudF9pZDp2YWxpZF9hcHBsaWNhdGlvbl9rZXk="
+        "Authorization": "***"
       },
       "method": "get",
       "options": [],
       "request_body": "",
-      "url": "https://api.backblaze.com/b2api/v1/b2_authorize_account"
+      "url": "https://api.backblaze.com/b2api/v2/b2_authorize_account"
     },
     "response": {
-      "body": "{\n  \"accountId\": \"valid_account_id\",\n  \"apiUrl\": \"https://api000.backblaze.com\",\n  \"authorizationToken\": \"3_2016XXXXXXXXXX_XXXXXXXXXXXXXXXXXXXXXXXX_XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX_000_acct\",\n  \"downloadUrl\": \"https://f000.backblaze.com\",\n  \"minimumPartSize\": 100000000\n}\n",
+      "binary": false,
+      "body": "{\n  \"absoluteMinimumPartSize\": 5000000,\n  \"accountId\":\"CENSORED\",\n  \"allowed\": {\n    \"bucketId\": null,\n    \"bucketName\": null,\n    \"capabilities\": [\n      \"listKeys\",\n      \"writeKeys\",\n      \"deleteKeys\",\n      \"listBuckets\",\n      \"writeBuckets\",\n      \"deleteBuckets\",\n      \"readBuckets\",\n      \"listFiles\",\n      \"readFiles\",\n      \"shareFiles\",\n      \"writeFiles\",\n      \"deleteFiles\"\n    ],\n    \"namePrefix\": null\n  },\n  \"apiUrl\": \"https://api003.backblazeb2.com\",\n  \"authorizationToken\": \"CENSORED\",\n  \"downloadUrl\": \"https://f003.backblazeb2.com\",\n  \"recommendedPartSize\": 100000000\n}\n",
       "headers": {
-        "Server": "Apache-Coyote/1.1",
         "Cache-Control": "max-age=0, no-cache, no-store",
         "Content-Type": "application/json;charset=UTF-8",
-        "Content-Length": "276",
-        "Date": "Mon, 02 May 2016 06:14:58 GMT"
+        "Content-Length": "668",
+        "Date": "Fri, 24 Jul 2020 22:17:54 GMT"
       },
       "status_code": 200,
       "type": "ok"
@@ -25,24 +25,26 @@
   },
   {
     "request": {
-      "body": "{\"accountId\":\"valid_account_id\"}",
+      "body": "{\"accountId\":\"CENSORED\",\"bucketName\":\"b2client-test\"}",
       "headers": {
-        "Authorization": "3_2016XXXXXXXXXX_XXXXXXXXXXXXXXXXXXXXXXXX_XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX_000_acct",
+        "Accept": "application/json",
+        "Authorization": "***",
+        "User-Agent": "Elixir/B2Client",
         "Content-Type": "application/json"
       },
       "method": "post",
       "options": [],
       "request_body": "",
-      "url": "https://api000.backblaze.com/b2api/v1/b2_list_buckets"
+      "url": "https://api003.backblazeb2.com/b2api/v2/b2_list_buckets"
     },
     "response": {
-      "body": "{\n  \"buckets\": [\n    {\n      \"accountId\": \"valid_account_id\",\n      \"bucketId\": \"6dd33353ffdd65f85e410312\",\n      \"bucketName\": \"ex-b2-client-test-bucket\",\n      \"bucketType\": \"allPrivate\"\n    },\n    {\n      \"accountId\": \"valid_account_id\",\n      \"bucketId\": \"bd4343937f6d75785e210312\",\n      \"bucketName\": \"kk-movie-bucket\",\n      \"bucketType\": \"allPrivate\"\n    },\n    {\n      \"accountId\": \"valid_account_id\",\n      \"bucketId\": \"ed23a3638fad05a85e210312\",\n      \"bucketName\": \"privatelog-local\",\n      \"bucketType\": \"allPrivate\"\n    },\n    {\n      \"accountId\": \"valid_account_id\",\n      \"bucketId\": \"5d93d323af4d65485e310312\",\n      \"bucketName\": \"privatelog-prod\",\n      \"bucketType\": \"allPrivate\"\n    },\n    {\n      \"accountId\": \"valid_account_id\",\n      \"bucketId\": \"fd63e3836f1d25785e110312\",\n      \"bucketName\": \"privatelog-staging\",\n      \"bucketType\": \"allPrivate\"\n    },\n    {\n      \"accountId\": \"valid_account_id\",\n      \"bucketId\": \"cd3353130fed25f85e110312\",\n      \"bucketName\": \"refile-test-bucket\",\n      \"bucketType\": \"allPrivate\"\n    },\n    {\n      \"accountId\": \"valid_account_id\",\n      \"bucketId\": \"7db353431f7d05685e210312\",\n      \"bucketName\": \"refile-test-public\",\n      \"bucketType\": \"allPublic\"\n    }\n  ]\n}\n",
+      "binary": false,
+      "body": "{\n  \"buckets\": [\n    {\n      \"accountId\":\"CENSORED\",\n      \"bucketId\": \"84033973b2fd87077f35021f\",\n      \"bucketInfo\": {},\n      \"bucketName\": \"b2client-test\",\n      \"bucketType\": \"allPrivate\",\n      \"corsRules\": [],\n      \"lifecycleRules\": [],\n      \"options\": [\n        \"s3\"\n      ],\n      \"revision\": 2\n    }\n  ]\n}\n",
       "headers": {
-        "Server": "Apache-Coyote/1.1",
         "Cache-Control": "max-age=0, no-cache, no-store",
         "Content-Type": "application/json;charset=UTF-8",
-        "Content-Length": "1202",
-        "Date": "Mon, 02 May 2016 06:14:59 GMT"
+        "Content-Length": "323",
+        "Date": "Fri, 24 Jul 2020 22:17:53 GMT"
       },
       "status_code": 200,
       "type": "ok"
@@ -50,24 +52,26 @@
   },
   {
     "request": {
-      "body": "{\"bucketId\":\"6dd33353ffdd65f85e410312\"}",
+      "body": "{\"bucketId\":\"84033973b2fd87077f35021f\"}",
       "headers": {
-        "Authorization": "3_2016XXXXXXXXXX_XXXXXXXXXXXXXXXXXXXXXXXX_XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX_000_acct",
+        "Accept": "application/json",
+        "Authorization": "***",
+        "User-Agent": "Elixir/B2Client",
         "Content-Type": "application/json"
       },
       "method": "post",
       "options": [],
       "request_body": "",
-      "url": "https://api000.backblaze.com/b2api/v1/b2_get_upload_url"
+      "url": "https://api003.backblazeb2.com/b2api/v2/b2_get_upload_url"
     },
     "response": {
-      "body": "{\n  \"authorizationToken\": \"3_2016XXXXXXXXXX_XXXXXXXXXXXXXXXXXXXXXXXX_XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX_000_upld\",\n  \"bucketId\": \"6dd33353ffdd65f85e410312\",\n  \"uploadUrl\": \"https://pod-000-1007-17.backblaze.com/b2api/v1/b2_upload_file/6dd33353ffdd65f85e410312/c000_v0001007_t0027\"\n}\n",
+      "binary": false,
+      "body": "{\n  \"authorizationToken\": \"CENSORED\",\n  \"bucketId\": \"84033973b2fd87077f35021f\",\n  \"uploadUrl\": \"https://pod-031-2002-16.backblaze.com/b2api/v2/b2_upload_file/84033973b2fd87077f35021f/c003_v0312002_t0024\"\n}\n",
       "headers": {
-        "Server": "Apache-Coyote/1.1",
         "Cache-Control": "max-age=0, no-cache, no-store",
         "Content-Type": "application/json;charset=UTF-8",
-        "Content-Length": "289",
-        "Date": "Mon, 02 May 2016 06:14:59 GMT"
+        "Content-Length": "275",
+        "Date": "Fri, 24 Jul 2020 22:17:53 GMT"
       },
       "status_code": 200,
       "type": "ok"
@@ -77,24 +81,26 @@
     "request": {
       "body": "hello there",
       "headers": {
-        "Authorization": "3_2016XXXXXXXXXX_XXXXXXXXXXXXXXXXXXXXXXXX_XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX_000_upld",
+        "Authorization": "***",
         "X-Bz-File-Name": "hello_there.txt",
         "Content-Type": "b2/x-auto",
         "X-Bz-Content-Sha1": "6e71b3cac15d32fe2d36c270887df9479c25c640"
       },
       "method": "post",
-      "options": [],
+      "options": {
+        "recv_timeout": "infinity"
+      },
       "request_body": "",
-      "url": "https://pod-000-1007-17.backblaze.com/b2api/v1/b2_upload_file/6dd33353ffdd65f85e410312/c000_v0001007_t0027"
+      "url": "https://pod-031-2002-16.backblaze.com/b2api/v2/b2_upload_file/84033973b2fd87077f35021f/c003_v0312002_t0024"
     },
     "response": {
-      "body": "{\n  \"accountId\": \"valid_account_id\",\n  \"action\": \"upload\",\n  \"bucketId\": \"6dd33353ffdd65f85e410312\",\n  \"contentLength\": 11,\n  \"contentSha1\": \"6e71b3cac15d32fe2d36c270887df9479c25c640\",\n  \"contentType\": \"text/plain\",\n  \"fileId\": \"4_z6dd33353ffdd65f85e410312_f1172ee1b90ad92b9_d20160502_m061500_c000_v0001007_t0027\",\n  \"fileInfo\": {},\n  \"fileName\": \"hello_there.txt\",\n  \"uploadTimestamp\": 1462169700000\n}\n",
+      "binary": false,
+      "body": "{\n  \"accountId\":\"CENSORED\",\n  \"action\": \"upload\",\n  \"bucketId\": \"84033973b2fd87077f35021f\",\n  \"contentLength\": 11,\n  \"contentMd5\": \"161bc25962da8fed6d2f59922fb642aa\",\n  \"contentSha1\": \"6e71b3cac15d32fe2d36c270887df9479c25c640\",\n  \"contentType\": \"text/plain\",\n  \"fileId\": \"4_z84033973b2fd87077f35021f_f11666a22b16f86d5_d20200724_m221754_c003_v0312002_t0024\",\n  \"fileInfo\": {},\n  \"fileName\": \"hello_there.txt\",\n  \"uploadTimestamp\": 1595629074000\n}\n",
       "headers": {
-        "Server": "Apache-Coyote/1.1",
         "Cache-Control": "max-age=0, no-cache, no-store",
         "Content-Type": "application/json;charset=UTF-8",
-        "Content-Length": "399",
-        "Date": "Mon, 02 May 2016 06:15:01 GMT"
+        "Content-Length": "451",
+        "Date": "Fri, 24 Jul 2020 22:17:54 GMT"
       },
       "status_code": 200,
       "type": "ok"

@@ -22,8 +22,8 @@ defmodule B2Client.Backend.Memory do
 
   ## B2Client.Backend callbacks ##
 
-  def authenticate(account_id, application_key) do
-    GenServer.call(__MODULE__, {:authenticate, account_id, application_key})
+  def authenticate(application_key_id, application_key) do
+    GenServer.call(__MODULE__, {:authenticate, application_key_id, application_key})
   end
 
   def get_bucket(b2, bucket_name) do
@@ -72,7 +72,7 @@ defmodule B2Client.Backend.Memory do
   defp initial_state do
     %{
       accounts: %{
-        "valid_account_id" => %{
+        "valid_application_key_id" => %{
           api_url: "https://api900.backblaze.example",
           download_url: "https://f900.backblaze.example",
           account_id: "valid_account_id",
@@ -80,7 +80,7 @@ defmodule B2Client.Backend.Memory do
         }
       },
       authorizations: %{
-        "fake_auth_token" => "valid_account_id"
+        "fake_auth_token" => "valid_application_key_id"
       },
       buckets: %{
         "valid_account_id" => [
@@ -96,9 +96,9 @@ defmodule B2Client.Backend.Memory do
     }
   end
 
-  def handle_call({:authenticate, account_id, application_key}, _from, state) do
+  def handle_call({:authenticate, application_key_id, application_key}, _from, state) do
     r =
-      case Map.fetch(state.accounts, account_id) do
+      case Map.fetch(state.accounts, application_key_id) do
         {:ok, %{application_key: ^application_key} = acct} ->
           client = Map.drop(acct, [:application_key])
 

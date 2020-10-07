@@ -1,6 +1,6 @@
 # B2Client
 
-[![Build Status](https://travis-ci.org/keichan34/b2_client.svg?branch=master)](https://travis-ci.org/keichan34/b2_client) [![Deps Status](https://beta.hexfaktor.org/badge/all/github/keichan34/b2_client.svg)](https://beta.hexfaktor.org/github/keichan34/b2_client)
+[![Build Status](https://travis-ci.org/keichan34/b2_client.svg?branch=master)](https://travis-ci.org/keichan34/b2_client)
 
 A client for the [Backblaze B2](https://www.backblaze.com/b2/cloud-storage.html) cloud storage service.
 

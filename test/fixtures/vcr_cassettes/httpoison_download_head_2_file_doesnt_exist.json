@@ -3,21 +3,21 @@
     "request": {
       "body": "",
       "headers": {
-        "Authorization": "Basic dmFsaWRfYWNjb3VudF9pZDp2YWxpZF9hcHBsaWNhdGlvbl9rZXk="
+        "Authorization": "***"
       },
       "method": "get",
       "options": [],
       "request_body": "",
-      "url": "https://api.backblaze.com/b2api/v1/b2_authorize_account"
+      "url": "https://api.backblaze.com/b2api/v2/b2_authorize_account"
     },
     "response": {
-      "body": "{\n  \"accountId\": \"valid_account_id\",\n  \"apiUrl\": \"https://api000.backblaze.com\",\n  \"authorizationToken\": \"3_2016XXXXXXXXXX_XXXXXXXXXXXXXXXXXXXXXXXX_XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX_000_acct\",\n  \"downloadUrl\": \"https://f000.backblaze.com\",\n  \"minimumPartSize\": 100000000\n}\n",
+      "binary": false,
+      "body": "{\n  \"absoluteMinimumPartSize\": 5000000,\n  \"accountId\":\"CENSORED\",\n  \"allowed\": {\n    \"bucketId\": null,\n    \"bucketName\": null,\n    \"capabilities\": [\n      \"listKeys\",\n      \"writeKeys\",\n      \"deleteKeys\",\n      \"listBuckets\",\n      \"writeBuckets\",\n      \"deleteBuckets\",\n      \"readBuckets\",\n      \"listFiles\",\n      \"readFiles\",\n      \"shareFiles\",\n      \"writeFiles\",\n      \"deleteFiles\"\n    ],\n    \"namePrefix\": null\n  },\n  \"apiUrl\": \"https://api003.backblazeb2.com\",\n  \"authorizationToken\": \"CENSORED\",\n  \"downloadUrl\": \"https://f003.backblazeb2.com\",\n  \"recommendedPartSize\": 100000000\n}\n",
       "headers": {
-        "Server": "Apache-Coyote/1.1",
         "Cache-Control": "max-age=0, no-cache, no-store",
         "Content-Type": "application/json;charset=UTF-8",
-        "Content-Length": "276",
-        "Date": "Mon, 02 May 2016 06:15:03 GMT"
+        "Content-Length": "668",
+        "Date": "Fri, 24 Jul 2020 22:17:55 GMT"
       },
       "status_code": 200,
       "type": "ok"
@@ -28,26 +28,24 @@
       "body": "",
       "headers": {
         "Accept": "application/json",
-        "Authorization": "3_2016XXXXXXXXXX_XXXXXXXXXXXXXXXXXXXXXXXX_XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX_000_acct",
+        "Authorization": "***",
         "User-Agent": "Elixir/B2Client"
       },
       "method": "head",
       "options": [],
       "request_body": "",
-      "url": "https://f000.backblaze.com/b2api/v1/b2_download_file_by_id?fileId=4_z6dd33353ffdd65f85e410312_f1172ee1b90ad92b9_d20160502_m061500_c000_v0001007_t0026"
+      "url": "https://f003.backblazeb2.com/b2api/v2/b2_download_file_by_id?fileId=4_z84033973b2fd87077f35021f_f110c0206f69f5407_d20200724_m134209_c003_v0312003_t0015"
     },
     "response": {
       "binary": false,
       "body": null,
       "headers": {
-        "Server": "Apache-Coyote/1.1",
         "Cache-Control": "max-age=0, no-cache, no-store",
-        "WWW-Authenticate": "BASIC realm=\"authorize_account\"",
-        "Content-Type": "application/json;charset=UTF-8",
-        "Content-Length": "91",
-        "Date": "Mon, 23 Apr 2018 15:48:20 GMT"
+        "Content-Type": "application/json;charset=utf-8",
+        "Content-Length": "74",
+        "Date": "Fri, 24 Jul 2020 22:17:56 GMT"
       },
-      "status_code": 400,
+      "status_code": 404,
       "type": "ok"
     }
   }
